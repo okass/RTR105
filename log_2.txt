@@ -1,0 +1,167 @@
+    1  ls
+    2  ls -a
+    3  cd .config
+    4  ls
+    5  cd openbox
+    6  ls
+    7  nano
+    8  ls
+    9  nano lxde-rc.xml
+   10  exit
+   11  ls
+   12  cd .config/openbox
+   13  ls
+   14  nano lxde-rc.xml
+   15  apt-get install gcc
+   16  su
+   17  exit
+   18  cd /etc/X11
+   19  ls
+   20  egrep -i "synap|alps|etps|elan" /proc/bus/input/devices
+   21  synaptics
+   22  su
+   23  lxterminal
+   24  ls -l
+   25  ls -a
+   26  cd .config
+   27  ls
+   28  cd openbox
+   29  ls
+   30  nano lxde-rc.xml
+   31  systemctl restart openbox
+   32  su
+   33  xev
+   34  exit
+   35  ls
+   36  cd .config
+   37  ls
+   38  ls -l
+   39  cd openbox
+   40  ls -l
+   41  nano lxde-rc.xml
+   42  openbox -restart
+   43  openbox --restart
+   44  nano lxde-rc.xml
+   45  openbox --restart
+   46  nano lxde-rc.xml
+   47  openbox --restart
+   48  openbox
+   49  openbox -help
+   50  man openbox
+   51  openbox --reconfigure
+   52  pwd
+   53  nano lxde-rc.xml
+   54  openbox --reconfigure
+   55  exit
+   56  apt install discord
+   57  su
+   58  xev
+   59  ls
+   60  cd documents
+   61  ls
+   62  cd Documents
+   63  ls
+   64  cd ..
+   65  mkdir projects
+   66  ls
+   67  cd projects
+   68  apt-get install firefox
+   69  su
+   70  firefox
+   71  ls
+   72  cd ..
+   73  ls
+   74  cd Downloads
+   75  ls
+   76  firefox
+   77  init 0
+   78  su
+   79  cd Downloads
+   80  pkg
+   81  su
+   82  gs
+   83  who
+   84  whoami
+   85  ..
+   86  man ps
+   87  ps
+   88  setxkbmap lv
+   89  map grep
+   90  man grep
+   91  su
+   92  ls
+   93  rm log3.txt
+   94  clone git://nanoshot.git.sourceforge.net/gitroot/nanoshot/nanoshot
+   95  git clone git://nanoshot.git.sourceforge.net/gitroot/nanoshot/nanoshot
+   96  git://nanoshot.git.sourceforge.net/gitroot/nanoshot/nanoshot
+   97  sudo apt-get install git
+   98  su
+   99  exit
+  100  touch newfile.txt
+  101  ls -l
+  102  chmod 777 newfile.txt
+  103  head newfile.txt
+  104  tailnewfile.txt
+  105  tail newfile.txt
+  106  cat newfile.txt
+  107  htop
+  108  echo test > newfile.txt
+  109  tail newfile.txt
+  110  hxd
+  111  su
+  112  ghex newfile.txt
+  113  echo second line >> newfile.txt
+  114  ghex newfile.txt
+  115  nano newfile.txt
+  116  touch run.sh
+  117  nano run.sh
+  118  su
+  119  wine
+  120  su
+  121  ls -l
+  122  su
+  123  mv ./Documents/log2.txt .
+  124  ls
+  125  mkdir kurss
+  126  mv log2.txt /kurss
+  127  ls -l
+  128  chmod 755 log2.txt
+  129  ls
+  130  ls -l
+  131  mv log2.txt /kurss
+  132  ls
+  133  cd kurss
+  134  ls -l
+  135  cd ..
+  136  ls -l
+  137  mv log2.txt ./kurss
+  138  ls
+  139  mv newfile.txt ./kurss
+  140  mv run.sh ./kurss
+  141  ls
+  142  cd kurss
+  143  ls
+  144  nano run.sh
+  145  sh run.sh
+  146  ls
+  147  cd file_folder
+  148  ls
+  149  tail file.txt
+  150  cd ..
+  151  rm -rf file_folder
+  152  ./run.sh
+  153  ls -l
+  154  ls /bin | grep "ls"
+  155  echo $PATH
+  156  su
+  157  ls
+  158  echo $VAR
+  159  VAR=$PATH
+  160  PATH=$PATH:~/kurss
+  161  echo PATH
+  162  ECHO $PATH
+  163  echo $PATH
+  164  PATH=$VAR
+  165  echo $PATH
+  166  history
+  167  history > log_2.txt

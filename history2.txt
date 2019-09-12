@@ -1,0 +1,132 @@
+    1  ls
+    2  ls -a
+    3  cd .config
+    4  ls
+    5  cd openbox
+    6  ls
+    7  nano
+    8  ls
+    9  nano lxde-rc.xml
+   10  exit
+   11  ls
+   12  cd .config/openbox
+   13  ls
+   14  nano lxde-rc.xml
+   15  apt-get install gcc
+   16  su
+   17  exit
+   18  cd /etc/X11
+   19  ls
+   20  egrep -i "synap|alps|etps|elan" /proc/bus/input/devices
+   21  synaptics
+   22  su
+   23  lxterminal
+   24  ls -l
+   25  ls -a
+   26  cd .config
+   27  ls
+   28  cd openbox
+   29  ls
+   30  nano lxde-rc.xml
+   31  systemctl restart openbox
+   32  su
+   33  xev
+   34  exit
+   35  ls
+   36  cd .config
+   37  ls
+   38  ls -l
+   39  cd openbox
+   40  ls -l
+   41  nano lxde-rc.xml
+   42  openbox -restart
+   43  openbox --restart
+   44  nano lxde-rc.xml
+   45  openbox --restart
+   46  nano lxde-rc.xml
+   47  openbox --restart
+   48  openbox
+   49  openbox -help
+   50  man openbox
+   51  openbox --reconfigure
+   52  pwd
+   53  nano lxde-rc.xml
+   54  openbox --reconfigure
+   55  exit
+   56  apt install discord
+   57  su
+   58  xev
+   59  ls
+   60  cd documents
+   61  ls
+   62  cd Documents
+   63  ls
+   64  cd ..
+   65  mkdir projects
+   66  ls
+   67  cd projects
+   68  apt-get install firefox
+   69  su
+   70  firefox
+   71  ls
+   72  cd ..
+   73  ls
+   74  cd Downloads
+   75  ls
+   76  firefox
+   77  init 0
+   78  su
+   79  cd Downloads
+   80  pkg
+   81  su
+   82  discord
+   83  ls
+   84  cd .config
+   85  ls
+   86  ls -l
+   87  su
+   88  discord
+   89  su
+   90  discord
+   91  uname
+   92  man uname
+   93  uname -a
+   94  whoami
+   95  pwd
+   96  whereami
+   97  man useradd
+   98  man adduser
+   99  man groupadd
+  100  groups
+  101  group scanner
+  102  groups scanner
+  103  groups heallv
+  104  getent group
+  105  members scanner
+  106  members
+  107  cd /etc/group
+  108  ls
+  109  cat /etc/group
+  110  tail /etc/groups
+  111  ls 
+  112  tail /etc/group
+  113  cd /etc
+  114  ls
+  115  cd ..
+  116  ls
+  117  cd ~/
+  118  ls
+  121  su
+  122  su heallv2
+  123  sh
+  124  ps -aux | grep "sh"
+  125  ps -aux | grep " sh"
+  126  htop
+  127  su
+  128  screenfetch
+  129  ksh
+  130  csh
+  131  tcsh
+  132  zsh
+  133  su
+  134  history > log2.txt
