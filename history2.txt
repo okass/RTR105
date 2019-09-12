@@ -97,22 +97,22 @@
    97  sudo apt-get install git
    98  su
    99  exit
-  100  touch newfile.txt
+  100  touch newfile.txt -> izveido tuksu failu
   101  ls -l
-  102  chmod 777 newfile.txt
-  103  head newfile.txt
+  102  chmod 777 newfile.txt -> faila persmission maina
+  103  head newfile.txt -> parada faila sakumu konsole
   104  tailnewfile.txt
   105  tail newfile.txt
-  106  cat newfile.txt
+  106  cat newfile.txt -> parada visu failu konsole
   107  htop
-  108  echo test > newfile.txt
-  109  tail newfile.txt
+  108  echo test > newfile.txt -> novada terminala izvadi uz failu
+  109  tail newfile.txt -> parada faila beigas
   110  hxd
   111  su
   112  ghex newfile.txt
-  113  echo second line >> newfile.txt
+  113  echo second line >> newfile.txt -> papildina failu
   114  ghex newfile.txt
-  115  nano newfile.txt
+  115  nano newfile.txt -> redige failu ar nano
   116  touch run.sh
   117  nano run.sh
   118  su
@@ -122,7 +122,7 @@
   122  su
   123  mv ./Documents/log2.txt .
   124  ls
-  125  mkdir kurss
+  125  mkdir kurss -> izveido mapi
   126  mv log2.txt /kurss
   127  ls -l
   128  chmod 755 log2.txt
@@ -148,7 +148,7 @@
   148  ls
   149  tail file.txt
   150  cd ..
-  151  rm -rf file_folder
+  151  rm -rf file_folder -> izdzes failu
   152  ./run.sh
   153  ls -l
   154  ls /bin | grep "ls"
@@ -156,12 +156,12 @@
   156  su
   157  ls
   158  echo $VAR
-  159  VAR=$PATH
-  160  PATH=$PATH:~/kurss
+  159  VAR=$PATH -> izveido mainigo ar $PATH vertibu
+  160  PATH=$PATH:~/kurss -> pievieno atrasanas vietu $PATH
   161  echo PATH
   162  ECHO $PATH
   163  echo $PATH
-  164  PATH=$VAR
+  164  PATH=$VAR -> atcel izmainas
   165  echo $PATH
   166  history
   167  history > log_2.txt
