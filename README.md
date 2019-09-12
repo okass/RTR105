@@ -31,4 +31,4 @@ mkdir - izveido jaunu mapi
 
 history - parada terminala vesturi
 
-> - pipe? novada teksta izvadi uz citu vietu ka failu
+\> - pipe? novada teksta izvadi uz citu vietu ka failu
