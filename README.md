@@ -40,10 +40,15 @@ git commit -a -m "message" - izveido lokalu izmainu gatavu nodosanai
 git push - nodod izmainu
 
 if \[ statement \]
+
 then
+
 	action
+
 else
+
 	action2
+
 fi
 
 \- if bloks
