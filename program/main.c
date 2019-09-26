@@ -2,16 +2,20 @@
 
 int main()
 {
-	int integrer_int = 16;
-	short integrer_short = 16;
-	char integrer_char = 16;
-	long int integrer_long_int = 16;
-	long long int integrer_long_long_int = 16;
-	printf("%u\n", sizeof(integrer_char));
-	printf("%u\n", sizeof(integrer_short));
-	printf("%u\n", sizeof(integrer_int));
-	printf("%u\n", sizeof(integrer_long_int));
-	printf("%u\n", sizeof(integrer_long_long_int));
-	printf("Hello world!\n");
+	char name[16];
+	char name2[16];
+	int age;
+	printf("Enter your name: ");
+	scanf("%s", name);
+	//printf("\n");
+
+	printf("Enter your second name: ");
+	scanf("%s", name2);
+	printf("\n%s", name);
+	//printf("\n%s", name2);
+	printf("\n");
+
+	printf("Your name is %s!\n", &name);
+	printf("Your other name is %s!\n", &name2);
 	return 0;
 }
