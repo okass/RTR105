@@ -1,1 +1,3 @@
-gcc hello.c -o program
+rm -rm ./bin
+mkdir bin
+gcc hello.c -o ./bin/program

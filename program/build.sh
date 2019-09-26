@@ -1,1 +1,3 @@
-gcc main.c -o program
+rm -rf ./bin
+mkdir bin
+gcc main.c -o ./bin/program
