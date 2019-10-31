@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<string.h>
+#include<math.h>
 
 int sort_big()
 {
@@ -109,6 +110,72 @@ int sort_small()
 	printf("Sorted: %d;%d;%d\n", temp_vars[0], temp_vars[1], temp_vars[2]);
 }
 
+int border()
+{
+	int i,N=50;
+	for (i=1; i<=N; i++)
+	{
+		printf("(1+1/%d)^%d = %.5f\n", i, i,
+				 pow(1 + 1/(float)i, i) );
+	}
+}
+
+int factorial()
+{
+	int lastVal = 1;
+	unsigned int lastValU = 1;
+	int i = 1;
+	
+	// signed int
+	while (1)
+	{
+		int fact = 1;
+		for (int iter = 1; iter <= i; iter++)
+		{
+			fact = fact * iter;
+			if (iter != i)
+			{
+				lastVal = fact;
+			}
+		}
+		printf("%d %d %d\n", fact, i, lastVal);
+
+
+		if (fact < lastVal)
+		{
+			printf("biggest factorial signed int: %d\n", i - 1);
+			break;
+		}
+
+		i++;
+	}
+
+	lastVal = 0;
+	// unsigned int
+	while (1)
+	{
+		unsigned int fact = 1;
+		for (unsigned int iter = 1; iter <= i; iter++)
+		{
+			fact = fact * iter;
+			if (iter != i)
+			{
+				lastValU = fact;
+			}
+		}
+		printf("%d %d %d\n", fact, i, lastValU);
+
+
+		if (fact < lastValU)
+		{
+			printf("biggest factorial unsigned int: %d\n", i - 1);
+			break;
+		}
+
+		i++;
+	}
+}
+
 int printHelp()
 {
 	printf("Possible commands:\n"
@@ -138,6 +205,14 @@ int main()
 		if (strcmp(action, "exit") == 0)
 		{
 			isAlive = 0;
+		}else
+		if (strcmp(action, "factorial") == 0)
+		{
+			factorial();
+		}else
+		if (strcmp(action, "border") == 0)
+		{
+			border();
 		}else
 		{
 			printHelp();
