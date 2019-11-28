@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#define VAL_COUNT 100
 
 double calcSin(double x){
 	int max_k = 500;
@@ -21,31 +20,41 @@ double calcSin(double x){
 	return y;
 };
 
-int main(){
+int launchPlot(int count){
 	char * commands[] = {"set title \"graph sin\";"
 				" set style data lines;"
 				" plot sin(x) lc rgb \"#00FF00\"," 
 				" '-' \n"};
-	double xvals[VAL_COUNT] = {};
-	double yvals[VAL_COUNT] = {};
+	double xvals[count];
+	double yvals[count];
 
 	FILE * plotPipe = popen("gnuplot -persistent ", "w");
 
-	for (int i = 0; i < VAL_COUNT; i++){
+	for (int i = 0; i < count; i++){
 		double y = calcSin(i * .1);
-		xvals[i] = (double)i;
-		printf("%lf\n", y);
+		xvals[i] = (double)i * .1;
 		yvals[i] = y;
 	}
 
 	fprintf(plotPipe, "%s ", commands[0]);
 
-	printf("input vals\n");
-	for(int i = 0; i < VAL_COUNT; i++){
-		//printf("%lf, %lf \n", xvals[i], yvals[i]);
+	for(int i = 0; i < count; i++){
 		fprintf(plotPipe, "%lf %lf \n", xvals[i], yvals[i]);
 	}
 
 	fprintf(plotPipe, "e");
 	fflush(plotPipe);
+
+	return 0;
+};
+
+int main(){
+	int x = 0;
+
+	printf("Enter x value: ");
+	scanf("%d", &x);
+	printf("\n");
+	if (x > 0){
+		launchPlot(x * 10);
+	};
 };
