@@ -9,7 +9,7 @@ int main(){
 	
 	while(x<b){
 		printf("%10.2f\t%10.2f\t%10.2f\n", 
-			x, sin(x),sin(x+delta_x)-sin(x)/delta_x);
+			x, sin(x),( sin(x+delta_x)-sin(x) ) /delta_x);
 		x += delta_x;
 	}
 	return 0;
