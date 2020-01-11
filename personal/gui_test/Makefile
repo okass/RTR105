@@ -4,6 +4,7 @@ NAME = bin/guiTest
 INCLUDE = -Iinclude
 #lib paths
 LIBS = -L./bin -liup -liupim -liupcd -liupimglib -lim -lim_process -lcd -lcdim -lm
+#link so libs as being used from root of program
 LDFLAGS = '-Wl,-rpath,$$ORIGIN/'
 
 all: directories libs
