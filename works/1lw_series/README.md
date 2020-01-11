@@ -123,7 +123,7 @@ Aprēķins ar Teilora rindām sakrīt ar vienkāršu C valodā uzrakstītu funkc
 Rezultātos arī novērojama eksponentfunkcijas iezīme, ka vērtības tuvojas nullei, bet nekad tās nesasniedz.
 Tas ir redzams pievienotajā grafika attēlā. 
 
-C valodas matemātikas bibliotēkā, specifiski GNU C library (2.3.0), aprēķins notiek šādi:
+C valodas matemātikas bibliotēkā, specifiski GNU C library (2.3.0), aprēķins notiek šādi(fails glibc-2.30\sysdeps\i386\fpu\e_exp.S):
 ```assembly
 /* e^x = 2^(x * log2(e)) */
 ENTRY(__ieee754_exp)
