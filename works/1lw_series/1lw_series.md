@@ -18,16 +18,16 @@ Tās vērtību var pierādīt ar Teilora rindas izteiksmi.
 Teilora rinda ir nepieciešama, jo e konstanti aprēķina ar eksponentfunkcijas palīdzību un tā ir redzama nākamajā izteiksmē.
 
 Funkcijas exp(-x) aprēķins izmantojot Teilora rindu:
-```		
-		 500
-		-----
-		\          k     k
-		 \     (-1)  *  x
+```     
+         500
+        -----
+        \          k     k
+         \     (-1)  *  x
 f(x) =    |   -------------
-		 /          k!
-		/
-		------
-		 k=0
+         /          k!
+        /
+        ------
+         k=0
 ```
 
 Tā kā funkcijā konstante e ir kāpināta negatīvā x pakāpē, šī Teilora rinda ir izmainīta standarta eksponentfunkcija.
@@ -37,9 +37,9 @@ Lai nebūtu jāatkārto tie paši aprēķini, iepriekšējai vērtībai var pier
 
 Dotās Teilora rindas rekurences reizinātājs:
 ```
-	(-1) * x
+    (-1) * x
 R = ---------
-	    k
+        k
 ```
 
 Šādi tiek izrēķinātas 500 iterācijas teilora rindai un tās saskatītas.
@@ -52,59 +52,59 @@ Visbeidzot, lai iegūtu dotās funkcijas vērtību sareizina Teilora rindas rezu
 
 // (1-x) * e^-x
 double fnc(double x){
-	double result;
-	double previous_val;
-	int max_k = 500;
-	double priekspedeja;
-	
-	// lieka darbiiba, bet principa peec
-	//k = 0; (  (-1)^k    * x^k) / k! => 1
-	result = (pow(-1., 0) *  1 ) / 1;
-	previous_val = result;
-	
-	for(int i = 1; i <= max_k && previous_val != 0; i++){
-		// rekurences reizinaajums
-		double current_val = previous_val * (-1.) *x / i;
-		
-		result += current_val;
-		
-		// saglabaa veertiibas veelaakai paraadiishanai
-		if (current_val != 0){
-			priekspedeja = previous_val;
-			previous_val = current_val;
-		}
-	}
-	
-	// 4
-	printf("priekshpeedeejaa veertiiba: %7.6e\n", priekspedeja);
-	// 5
-	printf("peedeejaa veertiiba: %7.6e\n", previous_val);
-	
-	return (1. - x) * result;
+    double result;
+    double previous_val;
+    int max_k = 500;
+    double priekspedeja;
+    
+    // lieka darbiiba, bet principa peec
+    //k = 0; (  (-1)^k    * x^k) / k! => 1
+    result = (pow(-1., 0) *  1 ) / 1;
+    previous_val = result;
+    
+    for(int i = 1; i <= max_k && previous_val != 0; i++){
+        // rekurences reizinaajums
+        double current_val = previous_val * (-1.) *x / i;
+        
+        result += current_val;
+        
+        // saglabaa veertiibas veelaakai paraadiishanai
+        if (current_val != 0){
+            priekspedeja = previous_val;
+            previous_val = current_val;
+        }
+    }
+    
+    // 4
+    printf("priekshpeedeejaa veertiiba: %7.6e\n", priekspedeja);
+    // 5
+    printf("peedeejaa veertiiba: %7.6e\n", previous_val);
+    
+    return (1. - x) * result;
 }
 
 int main(){
-	double inp;
-	
-	// 1
-	printf("ievadiet x veertiibu: ");
-	scanf("%lf", &inp);
-	printf("\n");
-	
-	// 2
-	// f(x) = (1-x) * e^-x
-	printf("rezultaats izmantojot funkciju: %lf\n\n", 
-	( (1 - inp) * exp(-inp) ) );
-	
-	// 3
-	printf("rezultaats izmantojot teilora rindas: %lf\n", fnc(inp));
-	
-	return 0;
+    double inp;
+    
+    // 1
+    printf("ievadiet x veertiibu: ");
+    scanf("%lf", &inp);
+    printf("\n");
+    
+    // 2
+    // f(x) = (1-x) * e^-x
+    printf("rezultaats izmantojot funkciju: %lf\n\n", 
+    ( (1 - inp) * exp(-inp) ) );
+    
+    // 3
+    printf("rezultaats izmantojot teilora rindas: %lf\n", fnc(inp));
+    
+    return 0;
 }
 ```
 Var nokompilēt uz Windows izmantojot GCC for Windows, kā arī MSVC. 
 
-### Result
+### Rezultāts
 ```
 ievadiet x veertiibu: 5
 
@@ -128,38 +128,38 @@ C valodas matemātikas bibliotēkā, specifiski GNU C library (2.3.0), aprēķin
 /* e^x = 2^(x * log2(e)) */
 ENTRY(__ieee754_exp)
 #ifdef  PIC
-	LOAD_PIC_REG (cx)
+    LOAD_PIC_REG (cx)
 #endif
-	fldl	4(%esp)
+    fldl    4(%esp)
 /* I added the following ugly construct because exp(+-Inf) resulted
    in NaN.  The ugliness results from the bright minds at Intel.
    For the i686 the code can be written better.
    -- drepper@cygnus.com.  */
-	fxam				/* Is NaN or +-Inf?  */
-	fstsw	%ax
-	movb	$0x45, %dh
-	andb	%ah, %dh
-	cmpb	$0x05, %dh
-	je	1f			/* Is +-Inf, jump.  */
-	fldl2e
-	fmulp				/* x * log2(e) */
-	fld	%st
-	frndint				/* int(x * log2(e)) */
-	fsubr	%st,%st(1)		/* fract(x * log2(e)) */
-	fxch
-	f2xm1				/* 2^(fract(x * log2(e))) - 1 */
-	fld1
-	faddp				/* 2^(fract(x * log2(e))) */
-	fscale				/* e^x */
-	fstp	%st(1)
-	DBL_NARROW_EVAL_UFLOW_NONNEG_NAN
-	ret
+    fxam                /* Is NaN or +-Inf?  */
+    fstsw   %ax
+    movb    $0x45, %dh
+    andb    %ah, %dh
+    cmpb    $0x05, %dh
+    je  1f          /* Is +-Inf, jump.  */
+    fldl2e
+    fmulp               /* x * log2(e) */
+    fld %st
+    frndint             /* int(x * log2(e)) */
+    fsubr   %st,%st(1)      /* fract(x * log2(e)) */
+    fxch
+    f2xm1               /* 2^(fract(x * log2(e))) - 1 */
+    fld1
+    faddp               /* 2^(fract(x * log2(e))) */
+    fscale              /* e^x */
+    fstp    %st(1)
+    DBL_NARROW_EVAL_UFLOW_NONNEG_NAN
+    ret
 
-1:	testl	$0x200, %eax		/* Test sign.  */
-	jz	2f			/* If positive, jump.  */
-	fstp	%st
-	fldz				/* Set result to 0.  */
-2:	ret
+1:  testl   $0x200, %eax        /* Test sign.  */
+    jz  2f          /* If positive, jump.  */
+    fstp    %st
+    fldz                /* Set result to 0.  */
+2:  ret
 END (__ieee754_exp)
 ```
 Piezīmes: tie ir orģinālie komentāri.
