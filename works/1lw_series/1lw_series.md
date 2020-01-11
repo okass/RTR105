@@ -166,4 +166,5 @@ Piezīmes: tie ir orģinālie komentāri.
 
 ### Attēli
 Funkcijas f(x) = (1-x) * e^-x grafiks
+
 ![Funkcijas f(x) = (1-x) * e^-x grafiks](https://raw.githubusercontent.com/okass/RTR105/works/1lw_series/graph.png)
