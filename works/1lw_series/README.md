@@ -169,4 +169,5 @@ Funkcijas f(x) = (1-x) * e^-x grafiks
 ![Funkcijas f(x) = (1-x) * e^-x grafiks](https://raw.githubusercontent.com/okass/RTR105/master/works/1lw_series/graph.png)
 
 Kompilēšana uz Windows
+
 ![windows](https://raw.githubusercontent.com/okass/RTR105/master/works/1lw_series/compile.png)
