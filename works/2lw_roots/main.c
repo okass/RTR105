@@ -1,36 +1,80 @@
 #include <stdio.h>
 #include <math.h>
 
+// (1-x) * e^-x
+double fnc(double x){
+	double result;
+	double previous_val;
+	int max_k = 500;
+	
+	result = 1;
+	previous_val = result;
+	
+	for(int i = 1; i <= max_k && previous_val != 0; i++){
+		double current_val = previous_val * (-1.) *x / i;
+		
+		result += current_val;
+		previous_val = current_val;
+	}
+	
+	return (1. - x) * result;
+}
+
 int main(){
 	int prec;
+	printf("ievadiet precizitaati: ");
 	scanf("%d", &prec);
-	float a = 1, b = 6, c = 9, x, delta_x = pow(10, (-1) * prec);//1.e-5;
-	float funca, funcb;
+	printf("\n");
+	double a = 1, b = 40, c = -5, x, delta_x = pow(10, (-1) * prec);//1.e-5;
+	
+	/*
+	// a veertiiba
+	printf("ievadiet mazaako pieljaujamo veertiibu: ");
+	scanf("%f", &a);
+	printf("\n");
+	
+	// b veertiiba
+	printf("ievadiet lielaako pieljaujamo veertiibu: ");
+	scanf("%f", &b);
+	printf("\n");
+	
+	// c veertiiba
+	printf("ievadiet x veertiibu: ");
+	scanf("%f", &c);
+	printf("\n");
+	*/
+	
+	//a, b, c = 1., 40., -5.;
+	
+	double funca, funcb, funcc;
 	int k = 0;
 	
-	funca = sin(a);
-	funcb = sin(b);
+	funca = fnc(a);
+	funcb = fnc(b);
+	funcc = fnc(c);
 	
-	if (funca * funcb > 0){
-		printf("[%.2f;%.2f] sin(x) has no roots or "
+	if (funca * funcb > funcc){
+		printf("[%.2f;%.2f] f(x) = (1-x) * e^-x has no roots or "
 			"its root count is pair number\n",
 			a, b);
 		return 1;
 	}
 	
-		printf("sin(a) = %f; sin(b) = %f\n", sin(a), sin(b));
-
-	while ((b-a) > delta_x){
+		printf("f(a) = %lf; f(b) = %lf; f(c) = %lf\n", fnc(a), fnc(b), fnc(c));
+	
+	x = b;
+	while (abs(x * x - funcc) > delta_x){
 		k++;
-		x = (a + b) / 2;
-		if (funca * sin(x) > 0){
+		//x = (a + b) / 2;
+		x = (x + (funcc/x)) / 2;
+		if (funca * fnc(x) > funcc){
 			a = x;
 		} else {
 			b = x;
 		}
-		printf("%2.d a %7.3f %7.3f", k, a, sin(a));
-		printf(" b %7.3f %7.3f", b, sin(b));
-		printf(" x %7.3f %7.3f\n", x, sin(x));
+		printf("%2.d a %7.3f %7.3f", k, a, fnc(a));
+		printf(" b %7.3f %7.3f", b, fnc(b));
+		printf(" x %7.3f %7.3f\n", x, fnc(c));
 		//printf("%2.d a %e %e", k, a, sin(a));
 		//printf(" b %e %e", b, sin(b));
 		//printf(" x %e %e\n", x, sin(x));
@@ -39,6 +83,6 @@ int main(){
 	//printf("%7.3f %7.3f", a, sin(a));
 	//printf("%7.3f %7.3f", x, sin(x));
 	//printf("%7.3f %7.3f\n", b, sin(b));
-	printf("x %e %e over %d iters\n", x, sin(x), k);
+	printf("x %lf %lf over %d iters\n", x, fnc(x), k);
 	return 0;
 }
