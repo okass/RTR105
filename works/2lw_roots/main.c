@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
+#include <time.h>
 
 // (1-x) * e^-x
 double fnc(double x){
@@ -25,24 +27,24 @@ int main(){
 	printf("ievadiet precizitaati: ");
 	scanf("%d", &prec);
 	printf("\n");
-	double a = 1, b = 40, c = -5, x, delta_x = pow(10, (-1) * prec);//1.e-5;
+	double a, b, c, x, delta_x = pow(10, (-1) * prec);//1.e-5;
 	
-	/*
+	///*
 	// a veertiiba
 	printf("ievadiet mazaako pieljaujamo veertiibu: ");
-	scanf("%f", &a);
+	scanf("%lf", &a);
 	printf("\n");
 	
 	// b veertiiba
 	printf("ievadiet lielaako pieljaujamo veertiibu: ");
-	scanf("%f", &b);
+	scanf("%lf", &b);
 	printf("\n");
 	
 	// c veertiiba
 	printf("ievadiet x veertiibu: ");
-	scanf("%f", &c);
+	scanf("%lf", &c);
 	printf("\n");
-	*/
+	//*/
 	
 	//a, b, c = 1., 40., -5.;
 	
@@ -51,7 +53,21 @@ int main(){
 	
 	funca = fnc(a);
 	funcb = fnc(b);
+	clock_t start, end;
+	start = clock();
 	funcc = fnc(c);
+	end = clock();
+	printf("%d %d\n", start, end);
+	printf("time taken: %e\n", (((double)(end - start)) / CLOCKS_PER_SEC));
+	
+	printf("f(a) = %lf; f(b) = %lf; f(c) = %lf\n", fnc(a), fnc(b), fnc(c));
+	
+	// paarbauda vai funnkcijas rezultaats nav negatiivs
+	if (funcc < 0){
+		printf("Funkcijas f(x) = (1-x) * e^-x veertiibas pie "
+				"%f ir negatiiva", c);
+		return 1;
+	}
 	
 	if (funca * funcb > funcc){
 		printf("[%.2f;%.2f] f(x) = (1-x) * e^-x has no roots or "
@@ -60,21 +76,24 @@ int main(){
 		return 1;
 	}
 	
-		printf("f(a) = %lf; f(b) = %lf; f(c) = %lf\n", fnc(a), fnc(b), fnc(c));
+	printf("f(a) = %lf; f(b) = %lf; f(c) = %lf\n", fnc(a), fnc(b), fnc(c));
 	
 	x = b;
-	while (abs(x * x - funcc) > delta_x){
+	while (fabs(x * x - funcc) > delta_x){
 		k++;
 		//x = (a + b) / 2;
 		x = (x + (funcc/x)) / 2;
+		/*
 		if (funca * fnc(x) > funcc){
 			a = x;
 		} else {
 			b = x;
 		}
+		/*
 		printf("%2.d a %7.3f %7.3f", k, a, fnc(a));
 		printf(" b %7.3f %7.3f", b, fnc(b));
 		printf(" x %7.3f %7.3f\n", x, fnc(c));
+		*/
 		//printf("%2.d a %e %e", k, a, sin(a));
 		//printf(" b %e %e", b, sin(b));
 		//printf(" x %e %e\n", x, sin(x));
@@ -83,6 +102,6 @@ int main(){
 	//printf("%7.3f %7.3f", a, sin(a));
 	//printf("%7.3f %7.3f", x, sin(x));
 	//printf("%7.3f %7.3f\n", b, sin(b));
-	printf("x %lf %lf over %d iters\n", x, fnc(x), k);
+	printf("x=%7.32f f(x)=%f over %d iters\n", x, funcc, k);
 	return 0;
 }
