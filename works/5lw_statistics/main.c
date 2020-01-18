@@ -1,54 +1,96 @@
 #include <stdio.h>
-#include <math.h>
+#include <stdlib.h>
 
-// (1-x) * e^-x
-double fnc(double x){
-	double result;
-	double previous_val;
-	int max_k = 500;
-	double priekspedeja;
+int cmpfunc (const void * elem1, const void * elem2) {
+    char f = *((char*)elem1);
+    char s = *((char*)elem2);
+    if (f > s) return  1;
+    if (f < s) return -1;
+    return 0;
+}
+
+float findMedian(char * buffer, int bufferSize, 
+				unsigned int letterCount){
+	float median;
+	unsigned char buf [4096];
 	
-	// lieka darbiiba, bet principa peec
-	//k = 0; (  (-1)^k    * x^k) / k! => 1
-	result = (pow(-1., 0) *  1 ) / 1;
-	previous_val = result;
+	// read from buffer and create median array
+	for (unsigned int i = 0; i < bufferSize; i++){
+		char letter = buffer[i];
+        
+        // detects if string has ended in buffer
+        if (letter == 0xA) {
+            break;
+        }
+		buf[i] = letter;
+    }
 	
-	for(int i = 1; i <= max_k && previous_val != 0; i++){
-		// rekurences reizinaajums
-		double current_val = previous_val * (-1.) *x / i;
-		
-		result += current_val;
-		
-		// saglabaa veertiibas veelaakai paraadiishanai
-		if (current_val != 0){
-			priekspedeja = previous_val;
-			previous_val = current_val;
-		}
+	// sort
+	qsort(&buf, letterCount, 1, cmpfunc);
+	
+	if((letterCount & 0x1) == 0){
+		median = (float)(buf[(letterCount - 1) / 2] 
+					+ buf[(letterCount - 1) / 2 + 1]) / 2;
+	} else{
+		median = buf[(letterCount) / 2];
 	}
 	
-	// 4
-	printf("priekshpeedeejaa veertiiba: %7.6e\n", priekspedeja);
-	// 5
-	printf("peedeejaa veertiiba: %7.6e\n", previous_val);
+	printf("Sorted characters: ");
+	for (int i = 0; i < letterCount; i++){
+		printf("%c", buf[i]);
+	}
+	printf("\n");
 	
-	return (1. - x) * result;
+	return median;
+}
+
+
+unsigned int getStringLenght(char * buffer, int bufferSize, 
+					unsigned char * biggest, 
+					unsigned char * smallest,
+					float * average){   
+    int letterCount = 0;
+	unsigned int sum = 0;
+    
+    for(int i = 0; i < bufferSize; i++)
+    {
+		char letter = buffer[i];
+        
+        // detects if string has ended in buffer
+        if (letter == 0xA) {
+            break;
+        }
+		
+		if (letter > *biggest) *biggest = letter;
+		if (letter < *smallest) *smallest = letter;
+		letterCount++;
+		sum += letter;
+    }
+	
+	*average = (float)sum / (float)letterCount;
+	
+	return letterCount;
 }
 
 int main(){
-	double inp;
+	char buffer[4096];
+	unsigned char biggest = 0;
+	unsigned char smallest = 0xFF;
+	float average = 0;
+	float median = 0;
 	
-	// 1
-	printf("ievadiet x veertiibu: ");
-	scanf("%lf", &inp);
-	printf("\n");
-	
-	// 2
-	// f(x) = (1-x) * e^-x
-	printf("rezultaats izmantojot funkciju: %lf\n\n", 
-	( (1 - inp) * exp(-inp) ) );
-	
-	// 3
-	printf("rezultaats izmantojot teilora rindas: %lf\n", fnc(inp));
+	printf("Please enter letters:\n>");
+    fgets(&buffer, 4096, stdin);
+    unsigned int charCount = getStringLenght(&buffer, sizeof(buffer), 
+									&biggest, &smallest, &average);
+	median = findMedian(&buffer, sizeof(buffer),
+						charCount);
+					
+    printf("Counted %d chars.\n", charCount);
+	printf("Biggest: %c(%d)\nSmallest: %c(%d)\n", biggest, biggest, 
+												smallest, smallest);
+	printf("Average: %7.3f\n", average);
+	printf("Median: %7.3f\n", median);
 	
 	return 0;
 }
