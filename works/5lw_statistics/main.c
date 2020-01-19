@@ -1,22 +1,57 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int cmpfunc (const void * elem1, const void * elem2) {
-    char f = *((char*)elem1);
+int cmpfunc(const void * elem1, const void * elem2){
+    // qsort specifikaacija
+	char f = *((char*)elem1);
     char s = *((char*)elem2);
-    if (f > s) return  1;
-    if (f < s) return -1;
+	
+    // ja elem1 > elem2 tad elem1 ir aiz elem2
+	if (f > s) return  1;
+    // ja elem1 < elem2 tad elem1 ir pirms elem2
+	if (f < s) return -1;
+	// ja elem1 == elem2 tad seciiba nemainaas
     return 0;
+}
+
+// modas
+void findMode(char * buffer, int bufferSize, 
+					unsigned int letterCount){
+	unsigned char count[0xFF] = {0};
+	unsigned int highest = 0;
+	unsigned char highest_id = 0;
+	
+	// count
+	for (int i = 0; i < letterCount; i++){
+		count[buffer[i]]++; 
+	}
+	
+	// find highest
+	for (int i = 0; i < 0xFF; i++){
+		if (count[i] > highest){
+			highest = count[i];
+			highest_id = i;
+		}
+	}
+	
+	printf("Mode(s):");
+	for (int i = 0; i < 0xFF; i++){
+		if (count[i] == highest){
+			printf(" %d(%c)", i, i);
+		}
+	}
+	printf(" appears %d times\n", count[highest_id]);
 }
 
 float findMedian(char * buffer, int bufferSize, 
 				unsigned int letterCount){
 	float median;
-	unsigned char buf [4096];
+	// sakriit ar ievades bufera izmeeru
+	unsigned char buf[4096];
 	
 	// read from buffer and create median array
 	for (unsigned int i = 0; i < bufferSize; i++){
-		char letter = buffer[i];
+		char letter = (char)buffer[i];
         
         // detects if string has ended in buffer
         if (letter == 0xA) {
@@ -26,6 +61,7 @@ float findMedian(char * buffer, int bufferSize,
     }
 	
 	// sort
+	// izdeviigaak sakaartot sheit
 	qsort(&buf, letterCount, 1, cmpfunc);
 	
 	if((letterCount & 0x1) == 0){
@@ -35,15 +71,28 @@ float findMedian(char * buffer, int bufferSize,
 		median = buf[(letterCount) / 2];
 	}
 	
-	printf("Sorted characters: ");
+	printf("Sorted characters: \n");
 	for (int i = 0; i < letterCount; i++){
-		printf("%c", buf[i]);
+		printf("  %c ", buf[i]);
+	}
+	printf("\n");
+	
+	//printf("Sorted character bytes: ");
+	for (int i = 0; i < letterCount; i++){
+		char simb = buf[i];
+		if (simb > 99){
+			printf("%d;", buf[i]);
+		} else if (simb > 9){
+			printf(" %d;", buf[i]);
+		} else{
+			printf("  %d;", buf[i]);
+		}
+	
 	}
 	printf("\n");
 	
 	return median;
 }
-
 
 unsigned int getStringLenght(char * buffer, int bufferSize, 
 					unsigned char * biggest, 
@@ -52,6 +101,7 @@ unsigned int getStringLenght(char * buffer, int bufferSize,
     int letterCount = 0;
 	unsigned int sum = 0;
     
+	// biggest and smallest values plus total character count
     for(int i = 0; i < bufferSize; i++)
     {
 		char letter = buffer[i];
@@ -67,30 +117,35 @@ unsigned int getStringLenght(char * buffer, int bufferSize,
 		sum += letter;
     }
 	
+	// average
 	*average = (float)sum / (float)letterCount;
 	
 	return letterCount;
 }
 
 int main(){
+	// ar malloc vareetu daudz lielaakas rindas uzglabaat bet tas nav nepiecieshams
 	char buffer[4096];
 	unsigned char biggest = 0;
 	unsigned char smallest = 0xFF;
 	float average = 0;
 	float median = 0;
 	
+	// pajautaa ievadu
 	printf("Please enter letters:\n>");
     fgets(&buffer, 4096, stdin);
+	
     unsigned int charCount = getStringLenght(&buffer, sizeof(buffer), 
 									&biggest, &smallest, &average);
-	median = findMedian(&buffer, sizeof(buffer),
-						charCount);
+									
+	median = findMedian(&buffer, sizeof(buffer), charCount);
 					
     printf("Counted %d chars.\n", charCount);
 	printf("Biggest: %c(%d)\nSmallest: %c(%d)\n", biggest, biggest, 
 												smallest, smallest);
 	printf("Average: %7.3f\n", average);
 	printf("Median: %7.3f\n", median);
+	findMode(&buffer, sizeof(buffer), charCount);
 	
 	return 0;
 }

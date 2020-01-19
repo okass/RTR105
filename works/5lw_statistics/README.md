@@ -1,173 +1,186 @@
-# Laboratorijas darbs Nr.1 - Teilora rindas - atskaite
+# Laboratorijas darbs Nr.5 - Statistika - atskaite
 
 ## Teorija
-Darbs notiek ar iepriekš norādīto funkciju(šinī gadījumā Nr.18).
-
-Dotā funkcija:
-```
-f(x) = (1-x) * e^-x
-```
-
-Šo funkciju C valodā var ievadīt kā:
-```C
-double result = (1 - x) * exp(-x)
-```
-
-C valodā pierakstīta izteiksme satur exp(-x) funkciju, kura kāpinā e konstanti norādītājā pakāpē.
-Tās vērtību var pierādīt ar Teilora rindas izteiksmi.
-Teilora rinda ir nepieciešama, jo e konstanti aprēķina ar eksponentfunkcijas palīdzību un tā ir redzama nākamajā izteiksmē.
-
-Funkcijas exp(-x) aprēķins izmantojot Teilora rindu:
-```     
-         500
-        -----
-        \          k     k
-         \     (-1)  *  x
-f(x) =    |   -------------
-         /          k!
-        /
-        ------
-         k=0
-```
-
-Tā kā funkcijā konstante e ir kāpināta negatīvā x pakāpē, šī Teilora rinda ir izmainīta standarta eksponentfunkcija.
-Lai atvieglotu programmēšanu un samazinātu nepieciešamo aprēķinu apjomu rēķinot Teilora rindas, to var sadalīt smalkākās daļās.
-Šajā gadījumā pie k=0 => x(0)=1, kas ir pirmā vērtība. 
-Lai nebūtu jāatkārto tie paši aprēķini, iepriekšējai vērtībai var piereizināt rekurences reizinātāju, kas ir atšķirība starp iepriekšējo vērtību un nākamo, tādējādi iegūstot nākamo vērtību.
-
-Dotās Teilora rindas rekurences reizinātājs:
-```
-    (-1) * x
-R = ---------
-        k
-```
-
-Šādi tiek izrēķinātas 500 iterācijas teilora rindai un tās saskatītas.
-Visbeidzot, lai iegūtu dotās funkcijas vērtību sareizina Teilora rindas rezultātu ar (1 - x).
+Uzdevums ir sakārtot lietotāja ievadīto rindu alfabēta secībā, kā arī veikt tās analīzi, kā simbolu skaits, maksimālā un minimālā vērtība, vidējais aritmētiskais, mediāna un moda.
 
 ### Kods
 ```C
 #include <stdio.h>
-#include <math.h>
+#include <stdlib.h>
 
-// (1-x) * e^-x
-double fnc(double x){
-    double result;
-    double previous_val;
-    int max_k = 500;
-    double priekspedeja;
-    
-    // lieka darbiiba, bet principa peec
-    //k = 0; (  (-1)^k    * x^k) / k! => 1
-    result = (pow(-1., 0) *  1 ) / 1;
-    previous_val = result;
-    
-    for(int i = 1; i <= max_k && previous_val != 0; i++){
-        // rekurences reizinaajums
-        double current_val = previous_val * (-1.) *x / i;
+int cmpfunc(const void * elem1, const void * elem2){
+    // qsort specifikaacija
+	char f = *((char*)elem1);
+    char s = *((char*)elem2);
+	
+    // ja elem1 > elem2 tad elem1 ir aiz elem2
+	if (f > s) return  1;
+    // ja elem1 < elem2 tad elem1 ir pirms elem2
+	if (f < s) return -1;
+	// ja elem1 == elem2 tad seciiba nemainaas
+    return 0;
+}
+
+// modas
+void findMode(char * buffer, int bufferSize, 
+					unsigned int letterCount){
+	unsigned char count[0xFF] = {0};
+	unsigned int highest = 0;
+	unsigned char highest_id = 0;
+	
+	// count
+	for (int i = 0; i < letterCount; i++){
+		count[buffer[i]]++; 
+	}
+	
+	// find highest
+	for (int i = 0; i < 0xFF; i++){
+		if (count[i] > highest){
+			highest = count[i];
+			highest_id = i;
+		}
+	}
+	
+	printf("Mode(s):");
+	for (int i = 0; i < 0xFF; i++){
+		if (count[i] == highest){
+			printf(" %d(%c)", i, i);
+		}
+	}
+	printf(" appears %d times\n", count[highest_id]);
+}
+
+float findMedian(char * buffer, int bufferSize, 
+				unsigned int letterCount){
+	float median;
+	// sakriit ar ievades bufera izmeeru
+	unsigned char buf[4096];
+	
+	// read from buffer and create median array
+	for (unsigned int i = 0; i < bufferSize; i++){
+		char letter = (char)buffer[i];
         
-        result += current_val;
-        
-        // saglabaa veertiibas veelaakai paraadiishanai
-        if (current_val != 0){
-            priekspedeja = previous_val;
-            previous_val = current_val;
+        // detects if string has ended in buffer
+        if (letter == 0xA) {
+            break;
         }
+		buf[i] = letter;
     }
+	
+	// sort
+	// izdeviigaak sakaartot sheit
+	qsort(&buf, letterCount, 1, cmpfunc);
+	
+	if((letterCount & 0x1) == 0){
+		median = (float)(buf[(letterCount - 1) / 2] 
+					+ buf[(letterCount - 1) / 2 + 1]) / 2;
+	} else{
+		median = buf[(letterCount) / 2];
+	}
+	
+	printf("Sorted characters: \n");
+	for (int i = 0; i < letterCount; i++){
+		printf("  %c ", buf[i]);
+	}
+	printf("\n");
+	
+	//printf("Sorted character bytes: ");
+	for (int i = 0; i < letterCount; i++){
+		char simb = buf[i];
+		if (simb > 99){
+			printf("%d;", buf[i]);
+		} else if (simb > 9){
+			printf(" %d;", buf[i]);
+		} else{
+			printf("  %d;", buf[i]);
+		}
+	
+	}
+	printf("\n");
+	
+	return median;
+}
+
+unsigned int getStringLenght(char * buffer, int bufferSize, 
+					unsigned char * biggest, 
+					unsigned char * smallest,
+					float * average){   
+    int letterCount = 0;
+	unsigned int sum = 0;
     
-    // 4
-    printf("priekshpeedeejaa veertiiba: %7.6e\n", priekspedeja);
-    // 5
-    printf("peedeejaa veertiiba: %7.6e\n", previous_val);
-    
-    return (1. - x) * result;
+	// biggest and smallest values plus total character count
+    for(int i = 0; i < bufferSize; i++)
+    {
+		char letter = buffer[i];
+        
+        // detects if string has ended in buffer
+        if (letter == 0xA) {
+            break;
+        }
+		
+		if (letter > *biggest) *biggest = letter;
+		if (letter < *smallest) *smallest = letter;
+		letterCount++;
+		sum += letter;
+    }
+	
+	// average
+	*average = (float)sum / (float)letterCount;
+	
+	return letterCount;
 }
 
 int main(){
-    double inp;
-    
-    // 1
-    printf("ievadiet x veertiibu: ");
-    scanf("%lf", &inp);
-    printf("\n");
-    
-    // 2
-    // f(x) = (1-x) * e^-x
-    printf("rezultaats izmantojot funkciju: %lf\n\n", 
-    ( (1 - inp) * exp(-inp) ) );
-    
-    // 3
-    printf("rezultaats izmantojot teilora rindas: %lf\n", fnc(inp));
-    
-    return 0;
+	// ar malloc vareetu daudz lielaakas rindas uzglabaat bet tas nav nepiecieshams
+	char buffer[4096];
+	unsigned char biggest = 0;
+	unsigned char smallest = 0xFF;
+	float average = 0;
+	float median = 0;
+	
+	// pajautaa ievadu
+	printf("Please enter letters:\n>");
+    fgets(&buffer, 4096, stdin);
+	
+    unsigned int charCount = getStringLenght(&buffer, sizeof(buffer), 
+									&biggest, &smallest, &average);
+									
+	median = findMedian(&buffer, sizeof(buffer), charCount);
+					
+    printf("Counted %d chars.\n", charCount);
+	printf("Biggest: %c(%d)\nSmallest: %c(%d)\n", biggest, biggest, 
+												smallest, smallest);
+	printf("Average: %7.3f\n", average);
+	printf("Median: %7.3f\n", median);
+	findMode(&buffer, sizeof(buffer), charCount);
+	
+	return 0;
 }
 ```
 Var nokompilēt uz Windows izmantojot GCC for Windows, kā arī MSVC. 
 
 ### Rezultāts
 ```
-ievadiet x veertiibu: 5
-
-rezultaats izmantojot funkciju: -0.026952
-
-priekshpeedeejaa veertiiba: 6.768699e-322
-peedeejaa veertiiba: -1.482197e-323
-rezultaats izmantojot teilora rindas: -0.026952
+Please enter letters:
+>bdefcbab
+Sorted characters:
+  a   b   b   b   c   d   e   f
+ 97; 98; 98; 98; 99;100;101;102;
+Counted 8 chars.
+Biggest: f(102)
+Smallest: a(97)
+Average:  99.125
+Median:  98.500
+Mode(s): 98(b) appears 3 times
 
 ```
 
 ### Analīze
 
-Aprēķins ar Teilora rindām sakrīt ar vienkāršu C valodā uzrakstītu funkciju.
-Šis pierāda veidu, kā dators aprēķina eksponentfunkcijas.
-Rezultātos arī novērojama eksponentfunkcijas iezīme, ka vērtības tuvojas nullei, bet nekad tās nesasniedz.
-Tas ir redzams pievienotajā grafika attēlā. 
-
-C valodas matemātikas bibliotēkā, specifiski GNU C library (2.3.0), aprēķins notiek šādi(fails glibc-2.30\sysdeps\i386\fpu\e_exp.S):
-```assembly
-/* e^x = 2^(x * log2(e)) */
-ENTRY(__ieee754_exp)
-#ifdef  PIC
-    LOAD_PIC_REG (cx)
-#endif
-    fldl    4(%esp)
-/* I added the following ugly construct because exp(+-Inf) resulted
-   in NaN.  The ugliness results from the bright minds at Intel.
-   For the i686 the code can be written better.
-   -- drepper@cygnus.com.  */
-    fxam                /* Is NaN or +-Inf?  */
-    fstsw   %ax
-    movb    $0x45, %dh
-    andb    %ah, %dh
-    cmpb    $0x05, %dh
-    je  1f          /* Is +-Inf, jump.  */
-    fldl2e
-    fmulp               /* x * log2(e) */
-    fld %st
-    frndint             /* int(x * log2(e)) */
-    fsubr   %st,%st(1)      /* fract(x * log2(e)) */
-    fxch
-    f2xm1               /* 2^(fract(x * log2(e))) - 1 */
-    fld1
-    faddp               /* 2^(fract(x * log2(e))) */
-    fscale              /* e^x */
-    fstp    %st(1)
-    DBL_NARROW_EVAL_UFLOW_NONNEG_NAN
-    ret
-
-1:  testl   $0x200, %eax        /* Test sign.  */
-    jz  2f          /* If positive, jump.  */
-    fstp    %st
-    fldz                /* Set result to 0.  */
-2:  ret
-END (__ieee754_exp)
-```
-Piezīmes: tie ir orģinālie komentāri.
+Lai sakārtotu simbolu rindu, kodā tika izmantota C funkcija qsort(), kas ir QuickSort kārtošanas algoritms.
+Tā kā ASCII simboli ir skaitliski sakārtoti, var izmantot to skaitliskās vērtības to kārtošanā un analīzē.
+Tas ļauj izrēķināt simbolu rindas vidējo aritmētisko vērtību, atrast lielāko, mazāko vērtību, kā arī atrast mediānu un modu.
 
 ### Attēli
-Funkcijas f(x) = (1-x) * e^-x grafiks
-![Funkcijas f(x) = (1-x) * e^-x grafiks](https://raw.githubusercontent.com/okass/RTR105/master/works/1lw_series/graph.png)
-
-Kompilēšana uz Windows
-
-![windows](https://raw.githubusercontent.com/okass/RTR105/master/works/1lw_series/compile.png)
+Datu histogrammma Rezultāta ievadam
+![Datu histogrammma Rezultāta ievadam](https://raw.githubusercontent.com/okass/RTR105/master/works/5lw_statistics/graph.png)
