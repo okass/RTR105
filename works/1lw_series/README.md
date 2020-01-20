@@ -121,7 +121,7 @@ rezultaats izmantojot teilora rindas: -0.026952
 Aprēķins ar Teilora rindām sakrīt ar vienkāršu C valodā uzrakstītu funkciju.
 Šis pierāda veidu, kā dators aprēķina eksponentfunkcijas.
 Rezultātos arī novērojama eksponentfunkcijas iezīme, ka vērtības tuvojas nullei, bet nekad tās nesasniedz.
-Tas ir redzams pievienotajā grafika attēlā. 
+Tas ir redzams pievienotajā grafika attēlā, lai gan minimāli. 
 
 C valodas matemātikas bibliotēkā, specifiski GNU C library (2.3.0), aprēķins notiek šādi(fails glibc-2.30\sysdeps\i386\fpu\e_exp.S):
 ```assembly

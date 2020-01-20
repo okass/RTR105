@@ -1,3 +1,11 @@
+# Laboratorijas darbs Nr.2 - Kvadrātsaknes - atskaite
+
+## Teorija
+Uzdevums ir parādīt, kā izvilkt kvadrātsakni, neizmantojo iebūvēto sqrt() funkciju matemātikas bibliotēkā.
+Šajā gadījuma to izdara ar Hērona metodi.
+
+### Kods
+```C
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
@@ -72,9 +80,50 @@ int main(){
 		printf("[%.2f;%.2f] f(x) = (1-x) * e^-x nav kvadraatsaknju", a, b);
 		return 1;
 	}
-	printf("f(x)=%lf\n", funcc);
+	
 	printf("f(x) kvadraatsakne izmantojot heerona metodi: %7.16lf over %d iters\n"
-			"kvadraatsakne izmantojot iebuuveeto sqrt(): %7.16lf \n",
-			x, k, sqrt(funcc));
+		"kvadraatsakne izmantojot iebuuveeto sqrt(): %7.16lf \n",
+		x, k, sqrt(funcc));
 	return 0;
 }
+```
+Var nokompilēt uz Windows izmantojot GCC for Windows, kā arī MSVC. 
+
+### Rezultāts
+```
+ievadiet precizitaati: 13
+
+ievadiet mazaako pieljaujamo veertiibu: 0
+
+ievadiet lielaako pieljaujamo veertiibu: 40
+
+ievadiet x veertiibu: -1
+
+a =   0.000; b =  40.000; f(c) = 5.436564
+f(x)=5.436564
+f(x) kvadraatsakne izmantojot heerona metodi: 2.3316439815971242 over 9 iters
+kvadraatskane izmantojot iebuuveeto sqrt(): 2.3316439815971242
+
+```
+
+### Analīze
+
+Kods pārstāj darboties pie precizitātes 14 visticamāk float dēļ.
+Manuprāt, precizitāte pati nestrādā pareizi, toties kvadrātsakne tiek izvilkta pareizi, jo tā sakrīt ar sqrt() vērtību.
+Interesanti, ka x86_64 procesorā ir iebūvēta kvadrātsaknes funkcija.
+Lielākajai daļai arhitektūru tā ir iebūvēta, bet vecākām, kā, piemēram, PowerPC tāda nav, tāpēc tai C bibliotēkā tā ir definēta asemblerā.
+No GNU C library (2.3.0) tā ir definēta kā
+```C
+__ieee754_sqrt (double x)
+{
+  double res;
+
+  asm ("sqrtsd %1, %0" : "=x" (res) : "xm" (x));
+
+  return res;
+}
+```
+
+### Attēli
+Funkcijas f(x) = (1-x) * e^-x grafiks ar atliktu saknes punktu
+![Funkcijas f(x) = (1-x) * e^-x grafiks](https://raw.githubusercontent.com/okass/RTR105/master/works/2lw_roots/graph.png)
