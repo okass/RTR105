@@ -90,8 +90,8 @@ int main(){
 	
 	printf("        x|      f(x)|  an f'(x)| num f'(x)| an f''(x)|num f''(x)|\n");
 	
-	fprintf(fp, "%s", "\"x\"\t" "\"f(x)\"\t" "\"analitical f'(x)\"\t"
-					"\"numerical f'(x)\"\t" "\"analitical f''(x)\"\t"
+	fprintf(fp, "%s", "\"x\"\t" "\"f(x)\"\t" "\"analytical f'(x)\"\t"
+					"\"numerical f'(x)\"\t" "\"analytical f''(x)\"\t"
 					"\"numerical f''(x)\"\n");
 	
 	while(b >= a + delta_x * k){
