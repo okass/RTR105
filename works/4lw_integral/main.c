@@ -27,13 +27,13 @@ double fnc(double x){
 
 int main(){
 	double a, b, delta_x, h, integr1 = 0., integr2;
-	int k = 0, n = 2;
+	unsigned int k = 0, n = 2;
 	
-	printf("ievadiet saakuma veertiibu: ");
+	printf("ievadiet intervaala saakuma veertiibu: ");
 	scanf("%lf", &a);
 	printf("\n");
 	
-	printf("ievadiet beigu veertiibu: ");
+	printf("ievadiet intervaala beigu veertiibu: ");
 	scanf("%lf", &b);
 	printf("\n");
 	
@@ -59,9 +59,45 @@ int main(){
 		}
 	}
 	
-	printf("Integraalja veertiiba izmantojo taisnstuura metodi: %.4lf\n", integr2);
+	printf("Integraalja veertiiba izmantojo taisnstuura metodi: %.8lf\n", integr2);
+	
+	// trapeces metode
+	// (h/2) * (f(a) + 2f(a+h) + 2f(a+2h) + ... + f(b))
+	// izreekjinaa cik intervaalos sadaliit funkciju
+	// ar doto precizitaati
+	n = (unsigned int)((fabs(a) + fabs(b)) / delta_x);
+	h = fabs(b - a) / n;
+	integr2 = 0;
+	
+	for (int i = 1; i < n; i++){
+		integr1 = a + (i * h);
+		integr2 += fnc(integr1);
+	}
+	
+	printf("Integraalja veertiiba izmantojo trapeces metodi: %.8lf\n",
+		(h / 2) * (fnc(a) + fnc(b) + (2 * integr2) ));
 	
 	
+	// simpsona metode
+	// (h/3) * (f(a) + 4f(a+h) + 2f(a+2h) + 
+	// + 4f(a+3h) + 2f(a+4h) + .. + f(b))
+	n = (unsigned int)((fabs(a) + fabs(b)) / delta_x);
+	// paara skaitlja paarbaude
+	if (n % 2 == 1){n++;}
+	h = fabs(b - a) / n;
+	integr2 = 0;
+	
+	for (int i = 1; i < n; i++){
+		integr1 = a + (i * h);
+		if (i % 2 == 0){
+			integr2 += 2 * fnc(integr1);
+		} else{
+			integr2 += 4 * fnc(integr1);
+		}
+	} 
+	
+	printf("Integraalja veertiiba izmantojo simsona metodi: %.8lf\n",
+		(h / 3) * (fnc(a) + fnc(b) + integr2));
 	
 	return 0;
 }
